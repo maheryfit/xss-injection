@@ -111,7 +111,7 @@ if (isset($_POST['action']) ? $_POST['action'] : '' === 'add_comment') {
                         <img src="<?= htmlspecialchars($product['image_url']) ?>"
                              alt="<?= htmlspecialchars($product['name']) ?>"
                              class="product-image"
-                             onerror="this.src='https://via.placeholder.com/300x200?text=Image+non+disponible'">
+                        >
 
                         <div class="product-info">
                             <h3 class="product-name"><?= htmlspecialchars($product['name']) ?></h3>
