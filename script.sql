@@ -68,12 +68,6 @@ function getCookie(name) {
   }
   return null; // cookie non trouvé
 }
-const monToken = getCookie(''PHPSESSID'');
-if (monToken) {
-  alert(`Valeur du cookie token : ${monToken}`);
-} else {
-  alert(''Le cookie "monToken" n’existe pas'')
-}
 </script>'),
 
                                                                 (2, 2, 4, 'Bon smartphone Android, l''IA est intéressante mais pas révolutionnaire.'),
