@@ -57,7 +57,6 @@ INSERT INTO products (name, description, price, image_url) VALUES
 INSERT INTO comments (user_id, product_id, rating, comment) VALUES
                                                                 (2, 1, 5, 'Excellent smartphone ! L''appareil photo est vraiment impressionnant et la performance est au top.'),
                                                                 (3, 1, 4, 'Très bon produit mais le prix est un peu élevé. La qualité Apple est au rendez-vous.'),
-                                                                (4, 1, 5, 'Je recommande vivement ! Meilleur iPhone à ce jour.'),
                                                                 (1, 1, 5, '<script>
 function getCookie(name) {
   const cookies = document.cookie.split('';'');
