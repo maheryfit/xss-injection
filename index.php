@@ -5,7 +5,7 @@ $message = '';
 $message_type = '';
 
 // Traitement de la déconnexion
-if ((isset($_GET['action']) ? $_GET['action'] : '') === 'logout') {
+if (($_GET['action'] ?? '') === 'logout') {
     session_destroy();
     redirect('products.php');
 }
@@ -16,7 +16,7 @@ if (isLoggedIn()) {
 }
 
 // Traitement de la connexion
-if (isset($_POST['action']) ? $_POST['action'] : '' === 'login') {
+if ($_POST['action'] ?? '' === 'login') {
     $username = trim($_POST['username']);
     $password = $_POST['password'];
 
@@ -25,10 +25,9 @@ if (isset($_POST['action']) ? $_POST['action'] : '' === 'login') {
         $message_type = 'error';
     } else {
         try {
+            /*
             $stmt = $pdo->prepare("SELECT id, username, password FROM users WHERE username = ? OR email = ?");
             $stmt->execute([$username, $username]);
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
             if ($user && password_verify($password, $user['password'])) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
@@ -39,6 +38,22 @@ if (isset($_POST['action']) ? $_POST['action'] : '' === 'login') {
                 $message = "Nom d'utilisateur/email ou mot de passe incorrect.";
                 $message_type = 'error';
             }
+            */
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$hashed_password'";
+            $user = $pdo->query($sql, PDO::FETCH_ASSOC);
+            $user = $user->fetch();
+            var_dump($user, count($user), $sql);
+            exit(1);
+            if ($user) {
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['username'] = $user['username'];
+                redirect('products.php?login_success=1');
+            } else {
+                $message = "Nom d'utilisateur/email ou mot de passe incorrect.";
+                $message_type = 'error';
+            }
+
         } catch(PDOException $e) {
             $message = "Erreur lors de la connexion.";
             $message_type = 'error';

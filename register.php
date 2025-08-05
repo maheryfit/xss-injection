@@ -10,7 +10,7 @@ if (isLoggedIn()) {
 }
 
 // Traitement de l'inscription
-if (isset($_POST['action']) ? $_POST['action'] : '' === 'register') {
+if ($_POST['action'] ?? '' === 'register') {
     $username = trim($_POST['username']);
     $email = trim($_POST['email']);
     $password = $_POST['password'];
@@ -134,7 +134,6 @@ if (isset($_POST['action']) ? $_POST['action'] : '' === 'register') {
             e.preventDefault();
             alert('Le mot de passe doit contenir au moins 6 caractères.');
             document.getElementById('password').style.borderColor = '#dc3545';
-            return;
         }
     });
 

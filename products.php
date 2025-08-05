@@ -11,7 +11,7 @@ if (isset($_GET['login_success'])) {
 }
 
 // Traitement de l'ajout de commentaire
-if (isset($_POST['action']) ? $_POST['action'] : '' === 'add_comment') {
+if ($_POST['action'] ?? '' === 'add_comment') {
     if (!isLoggedIn()) {
         $message = "Vous devez être connecté pour ajouter un commentaire.";
         $message_type = 'error';
