@@ -149,7 +149,8 @@ if (isset($_POST['action']) ? $_POST['action'] : '' === 'add_comment') {
                                                     <?= str_repeat('⭐', $comment['rating']) ?>
                                                 </span>
                                             </div>
-                                            <p class="comment-text"><?= $comment['comment'] ?></p>
+                                            <p class="comment-text"><?= htmlspecialchars($comment['comment']) ?></p>
+                                            <!--<p class="comment-text"><?php /*= $comment['comment']*/?></p>-->
                                             <small style="color: #999;">
                                                 <?= date('d/m/Y à H:i', strtotime($comment['created_at'])) ?>
                                             </small>
