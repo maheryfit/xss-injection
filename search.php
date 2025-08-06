@@ -29,16 +29,17 @@ if (!empty($search_query) || !empty($min_price) || !empty($max_price) || !empty(
             LEFT JOIN comments c ON p.id = c.product_id 
             WHERE 1=1
         ";
-        /*
-        $params = [];
 
         // Recherche sécurisée
+        $params = [];
         // Recherche textuelle
         if (!empty($search_query)) {
-            $sql .= " AND (LOWER(p.name) LIKE LOWER(?) OR LOWER(p.description) LIKE LOWER(?))";
+            $sql .= " AND p.name = LOWER(?)";
+            $params[] = $search_query;
+            /*$sql .= " AND (LOWER(p.name) LIKE LOWER(?) OR LOWER(p.description) LIKE LOWER(?))";
             $search_param = "%$search_query%";
             $params[] = $search_param;
-            $params[] = $search_param;
+            $params[] = $search_param;*/
         }
 
         // Filtre par prix minimum
@@ -60,7 +61,6 @@ if (!empty($search_query) || !empty($min_price) || !empty($max_price) || !empty(
             $sql .= " HAVING COALESCE(AVG(c.rating), 0) >= ?";
             $params[] = (float)$min_rating;
         }
-
         // Tri
         $allowed_sorts = ['name', 'price', 'avg_rating', 'comment_count', 'created_at'];
         $allowed_orders = ['ASC', 'DESC'];
@@ -72,21 +72,12 @@ if (!empty($search_query) || !empty($min_price) || !empty($max_price) || !empty(
                 $sql .= " ORDER BY p.$sort_by $sort_order";
             }
         }
-
         $stmt = $pdo->prepare($sql);
         $stmt->execute($params);
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $total_results = count($products);
 
-        if ($total_results === 0) {
-            $message = "Aucun produit trouvé pour votre recherche.";
-            $message_type = 'error';
-        } else {
-            $message = "$total_results produit(s) trouvé(s) pour votre recherche.";
-            $message_type = 'success';
-        }*/
-
-        // Recherche non sécurisée
+        /*// Recherche non sécurisée
         // Recherche textuelle
         if (!empty($search_query)) {
             $search_param = "%$search_query%";
@@ -113,7 +104,6 @@ if (!empty($search_query) || !empty($min_price) || !empty($max_price) || !empty(
             $min_rating = floatval($min_rating);
             $sql .= " HAVING COALESCE(AVG(c.rating), 0) >= $min_rating";
         }
-
         // Tri
         $allowed_sorts = ['name', 'price', 'avg_rating', 'comment_count', 'created_at'];
         $allowed_orders = ['ASC', 'DESC'];
@@ -129,7 +119,7 @@ if (!empty($search_query) || !empty($min_price) || !empty($max_price) || !empty(
         $stmt = $pdo->query($sql);
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $total_results = count($products);
-
+        */
         if ($total_results === 0) {
             $message = "Aucun produit trouvé pour votre recherche.";
             $message_type = 'error';
@@ -403,7 +393,6 @@ try {
         </h2>
 
         <!-- Formulaire de recherche -->
-        <?= $sql;?>
         <form method="GET" class="search-form">
             <div class="search-row">
                 <div class="form-group">
